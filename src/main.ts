@@ -91,7 +91,7 @@ async function init() {
     const commandEncoder = g_device?.createCommandEncoder();
 
     // 描画先のRenderTargetTexture
-    // 描画先のCanvasのBackBuffer
+    // (描画先のCanvasのBackBuffer)
     const textureView = context.getCurrentTexture().createView();
 
     const renderPassDescriptor: GPURenderPassDescriptor = {
