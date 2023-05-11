@@ -1,9 +1,9 @@
 import "./style.css";
 
-const vertWGSL = `
+const shader = `
 // 頂点シェーダー
 @vertex
-fn main(
+fn vertexShader(
   @builtin(vertex_index) VertexIndex : u32
 ) -> @builtin(position) vec4<f32> {
 
@@ -15,12 +15,10 @@ fn main(
 
   return vec4<f32>(pos[VertexIndex], 0.0, 1.0);
 }
-`;
 
-const fragWGSL = `
 // フラグメントシェーダー
 @fragment
-fn main() -> @location(0) vec4<f32> {
+fn fragmentShader() -> @location(0) vec4<f32> {
     return vec4<f32>(0.5, 0.0, 0.0, 0.5);
 }
 `;
@@ -60,15 +58,15 @@ async function init() {
     layout: "auto",
     vertex: {
       module: g_device.createShaderModule({
-        code: vertWGSL,
+        code: shader,
       }),
-      entryPoint: "main",
+      entryPoint: "vertexShader",
     },
     fragment: {
       module: g_device.createShaderModule({
-        code: fragWGSL,
+        code: shader,
       }),
-      entryPoint: "main",
+      entryPoint: "fragmentShader",
       targets: [
         {
           format: presentationFormat,
@@ -80,13 +78,9 @@ async function init() {
     },
   });
 
-  frame({ context, pipeline });
+  frame(context, pipeline);
 
-  interface FrameProps {
-    context: GPUCanvasContext;
-    pipeline: GPURenderPipeline;
-  }
-  async function frame({ context, pipeline }: FrameProps) {
+  async function frame(context: GPUCanvasContext, pipeline: GPURenderPipeline) {
     // commandBuffer
     const commandEncoder = g_device?.createCommandEncoder();
 
