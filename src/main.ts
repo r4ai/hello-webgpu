@@ -28,6 +28,7 @@ async function init() {
   const context = canvas?.getContext("webgpu") as GPUCanvasContext;
 
   if (!context) {
+    alert("WebGPU not supported in your browser.")
     console.error("WebGPU not supported");
     return;
   } else {
